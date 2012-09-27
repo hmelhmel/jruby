@@ -133,7 +133,14 @@ public class PsychEmitter extends RubyObject {
             int versionInt0 = (int)versionAry.eltInternal(0).convertToInteger().getLongValue();
             int versionInt1 = (int)versionAry.eltInternal(1).convertToInteger().getLongValue();
 
-            if (versionInt0 != 1 && !(versionInt1 == 0 || versionInt1 == 1)) {
+            if (versionInt0 == 1) {
+                if (versionInt1 == 0) {
+                    version = DumperOptions.Version.V1_0;
+                } else if (versionInt1 == 1) {
+                    version = DumperOptions.Version.V1_1;
+                }
+            }
+            if (version == null) {
                 throw context.runtime.newArgumentError("invalid YAML version: " + versionAry);
             }
         }
